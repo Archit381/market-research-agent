@@ -1,5 +1,6 @@
 import requests
 from llama_index.core.settings import Settings
+from prompts import PARSING_PROMPT_TEMPLATE
 
 class HelperClass:
     
@@ -30,25 +31,7 @@ class HelperClass:
     @staticmethod
     async def _parseScrapedData(scrapedData: str, searchQuery: str)->str:
 
-        parsing_prompt = f'''
-
-        You are an advanced text extraction model. Your task is to extract only the main textual content from the provided scraped webpage data, removing all unrelated elements such as URLs, images, JavaScript, or redundant navigational text. 
-        Focus on delivering clear, meaningful content that reflects the primary information and purpose of the webpage. You will also be given a search query which you will use to find the textual data, from the web scraped data, that is relevant to the search query  
-        
-        Instructions:
-        - Don't modify the text extracted from the data into your own words. Just extract the main textual data as it is.
-        - Don't say 'Here is the extracted content..' or 'This is a web page...', just remove the unwanted data from the entire input and only output the main textual data as it is.
-        - Only find out textual data that is relevant to the search query given to you.
-        - Don't give me the HTML code. Just plain simple text 
-
-        Search Query: {searchQuery} (To be used to find relevance)
-        Web Scraped Input: (Data to be parsed) 
-
-        {scrapedData}
-
-        Output: 
-
-        '''
+        parsing_prompt = PARSING_PROMPT_TEMPLATE.format(searchQuery=searchQuery, scraped=scrapedData)
 
         response = Settings._llm.complete(parsing_prompt)
 

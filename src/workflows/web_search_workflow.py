@@ -11,8 +11,6 @@ from duckduckgo_search import DDGS
 from utils.helper import helper
 from tqdm import tqdm
 
-
-
 class WebSearchWorkflow(Workflow):
     '''
     Searches using user-query for top results across the web and scrapes webpages for relevant data
