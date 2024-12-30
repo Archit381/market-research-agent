@@ -21,7 +21,8 @@ PARSING_PROMPT_TEMPLATE = '''
 
         Output: 
 
-        '''
+'''
+
 INDUSTRY_RESEARCH_PROMPT = '''
 
         You are an Industry Research Expert tasked with conducting an in-depth analysis of the industry a given company operates in. Your primary objective is to suggest web search queries for identifying key trends, challenges, opportunities, and technological advancements shaping the industry. You must:
@@ -164,6 +165,82 @@ AI_APPLICATIONS_RESEARCH_PROMPT='''
         Industry Name: {industry_name}
 
         Output: 
+
 '''
 
+EXTRACT_COMPETITORS_AI_USE_PROMPT = '''
+
+        Based on the competitor data can you analyze how the competitors are using AI/ML technology. Also be specific with how exactlu are they using AI/ML or GenAI powered systems
+
+        Extract information for:
+        - AI strategies, tools, and technologies.
+        - Performance and impact of their AI implementations.
+        - Challenges or problems addressed through AI.
+        -  Areas where competitors excel or lag in AI adoption.
+        
+        Also analyze where the companies are lacking or facing problems which they have yet not resolved using AI/ML/GenAI
+
+        Competitor Data: {competitor_analysis_data}
+
+'''
+
+GENERATE_USE_CASE_PROMPT = '''
+
+        You are an expert Market Analysis agent that understand the various aspects of market problems where AI/ML or GenAI can be used.
+        Your task is to generate UseCases and explain how AI/ML/GenAI can be used to tackle a certain problem of your company. 
+        You must generate 5 use cases.
+
+        You will be given data which contains
+        - Company & Industry Information: This data contains information about your company and its industry. You need to understand your company's product to suggest AI/ML/GenAI use cases.
+        - AI analysis of Competitors: This data contains how other companies are using AI/ML
+        - AI research: This data contains how AI/ML is being used on the industry
+
+        Each use case must:
+        - Clearly define the **objective** or **usecase**.
+        - Specify the **AI/ML technology** used.
+        - Provide a practical and well-explained description of the AI application.
+        - Cross-Functional Benefit: What operations or departments of the company will be benefit from this use case and how
+
+        ### **Example Use Case Output:**
+
+            #### **Use Case 1: Predictive Maintenance for Manufacturing Equipment**
+
+            1. **Objective/Use Case**:  
+            Improve manufacturing uptime by implementing predictive maintenance on critical equipment. The goal is to reduce unplanned downtime and optimize maintenance scheduling.
+
+            2. **AI Application**:  
+            Machine Learning (ML) models trained on sensor data to predict equipment failure. Using historical data and sensor readings, the model will identify patterns that signal an impending failure, allowing the company to perform maintenance proactively. This technology will integrate with existing asset management systems for automated alerts.
+
+            3. **Cross-Functional Benefit**:
+            - **Operations & Maintenance**: Prevents costly breakdowns, improves equipment life cycle, and reduces unplanned maintenance costs.
+            - **Finance**: Reduces maintenance-related expenses, minimizing both direct and indirect costs associated with downtime.
+            - **Supply Chain**: Reduces production delays caused by equipment failure, ensuring more predictable and reliable delivery schedules.
+
+            4. **Additional Insights**:  
+            Competitors in the automotive manufacturing sector have started using AI-powered predictive maintenance to extend equipment lifecycles and reduce downtime. The proposed use case offers a unique differentiator by combining sensor data with predictive analytics, which can be integrated into existing Industry 4.0 initiatives.
+
+            #### **Use Case 2: Personalized Product Recommendations**
+
+            1. **Objective/Use Case**:  
+            Enhance customer experience by implementing a recommendation engine that provides personalized product suggestions based on individual browsing and purchasing patterns.
+
+            2. **AI Application**:  
+            A collaborative filtering algorithm, which uses data from previous customer behaviors (e.g., browsing history, purchase patterns) to predict what products a customer is most likely to purchase next. The system will use Natural Language Processing (NLP) to understand customer reviews and feedback, enhancing the recommendation quality.
+
+            3. **Cross-Functional Benefit**:
+            - **Operations & Maintenance**: Minimizes the need for manual curation of product recommendations, streamlining operations.
+            - **Finance**: Increases conversion rates and revenue by improving product visibility and customer engagement.
+            - **Supply Chain**: Provides better demand forecasting by analyzing customer preferences, enabling more accurate inventory management.
+
+            4. **Additional Insights**:  
+            Leading competitors in e-commerce are leveraging recommendation engines to drive customer engagement. By adding a layer of NLP, this solution can not only predict purchases but also respond to customer sentiment expressed in reviews, offering a more comprehensive approach to personalization.
+
+        Input:
+
+        Competitor analysis: {ai_competitor_analysis}
+        AI research: {ai_research}
+
+        Output: 
+
+'''
 
