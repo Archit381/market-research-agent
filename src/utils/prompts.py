@@ -10,7 +10,10 @@ PARSING_PROMPT_TEMPLATE = '''
         - Don't say 'Here is the extracted content..' or 'This is a web page...', just remove the unwanted data from the entire input and only output the main textual data as it is.
         - Only find out textual data that is relevant to the search query given to you.
         - Don't give me the HTML code. Just plain simple text 
+        - Don't start of saying 'The provided text appears..'. Just extract relevant text and give it as output
 
+        Extract all the plain text content from the provided HTML code. Do not summarize, analyze, or describe the structure. Only return the actual text as it appears in the HTML, excluding any tags, HTML attributes, or unnecessary information. Focus on the main body content such as titles, descriptions, headings, and links.
+        
         Search Query: {searchQuery} (To be used to find relevance)
         Web Scraped Input: (Data to be parsed) 
 

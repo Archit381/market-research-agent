@@ -6,10 +6,11 @@ from llama_index.core.workflow import (
     Context,
     step
 )
-from models.schema import WebSearchEvent, ScrapeURLEvent, ScrapeResultsSchema
+from models.schema import WebSearchEvent, ScrapedResultsSchema
 from duckduckgo_search import DDGS
 from utils.helper import helper
 from tqdm import tqdm
+from utils.prompts import PARSING_PROMPT_TEMPLATE
 
 class WebSearchWorkflow(Workflow):
     '''
@@ -19,9 +20,7 @@ class WebSearchWorkflow(Workflow):
     @step
     async def _webSearch(self, ctx: Context, ev: StartEvent)->WebSearchEvent:
         search_query = ev.search_query
-        # jina_api_key = ev.jina_api_key
         await ctx.set("search_query", search_query)
-        # await ctx.set("JINA_API_KEY", jina_api_key)
 
         list_ = DDGS().text(  
                 keywords = search_query,
@@ -37,21 +36,17 @@ class WebSearchWorkflow(Workflow):
     async def _scrapeURL(self, ctx: Context, ev: WebSearchEvent)->StopEvent:
         url_list = ev.url_list
         search_query:str = await ctx.get("search_query")
-        # jina_api_key:str = await ctx.get("JINA_API_KEY")
         
         data = ""
         source_urls = []
         for search_result in tqdm(url_list, desc="Scraping search results"):
-            # fetched_raw_data = helper._apiRequest(url = search_result['href'], jina_api_key=jina_api_key)
             fetched_raw_data = helper._apiRequest(url = search_result['href'])
             data+=fetched_raw_data+"\n"
             source_urls.append(search_result['href'])
         
+        prompt = PARSING_PROMPT_TEMPLATE.format(searchQuery=search_query, scrapedData=data)
 
-        parsed_data = await helper._parseScrapedData(
-                scrapedData = data,
-                searchQuery = search_query
-        )
+        parsed_data = await helper._getLLMOutput(prompt)
             
-        data = ScrapeResultsSchema(urls = source_urls, query = search_query, main = parsed_data)
+        data = ScrapedResultsSchema(source_urls = source_urls, query = search_query, main = parsed_data)
         return StopEvent(result=data)

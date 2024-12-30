@@ -1,15 +1,12 @@
 import requests
 from llama_index.core.settings import Settings
-from prompts import PARSING_PROMPT_TEMPLATE
+from utils.prompts import PARSING_PROMPT_TEMPLATE
+
 
 class HelperClass:
     
     @staticmethod
     def _apiRequest(url: str)->str:
-
-        # headers = {
-        #     "Authorization": f"Bearer {jina_api_key}"
-        # }
         '''
         Proxy Rotation
         '''
@@ -28,13 +25,13 @@ class HelperClass:
             except Exception as e:
                 raise RuntimeError(f"Api Request failed with error: {e}")
 
-    @staticmethod
-    async def _parseScrapedData(scrapedData: str, searchQuery: str)->str:
-
-        parsing_prompt = PARSING_PROMPT_TEMPLATE.format(searchQuery=searchQuery, scraped=scrapedData)
-
-        response = Settings._llm.complete(parsing_prompt)
-
-        return response.text
+    async def _getLLMOutput(self, prompt: str)->str:
+        token_count = len(prompt.split(" "))
+        print(f"Token count: {token_count}")
+        try:
+            response = await Settings._llm.acomplete(prompt)
+            return response.text
+        except Exception as e:
+            raise Exception(f"Failed to Get LLM Ouput with error: {e}")
 
 helper = HelperClass()
