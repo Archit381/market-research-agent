@@ -11,7 +11,7 @@ class HelperClass:
         Proxy Rotation
         '''
         
-        with open('proxies.txt', 'r', encoding='utf-8') as file:
+        with open('src/proxies.txt', 'r', encoding='utf-8') as file:
             proxies = file.read().split('\n')
 
         for proxy in proxies:
